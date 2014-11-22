@@ -16,7 +16,9 @@
 		656958D51A21121700BF47D5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 656958D41A21121700BF47D5 /* CoreData.framework */; };
 		656958D71A21122400BF47D5 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 656958D61A21122400BF47D5 /* MultipeerConnectivity.framework */; };
 		656958E01A21137100BF47D5 /* PublicChannelsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958DF1A21137100BF47D5 /* PublicChannelsTableViewController.m */; };
-		656958E31A21165600BF47D5 /* MultipeerManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958E21A21165600BF47D5 /* MultipeerManger.m */; };
+		656958E31A21165600BF47D5 /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958E21A21165600BF47D5 /* MCManager.m */; };
+		656958E81A21360600BF47D5 /* ChannelTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958E71A21360600BF47D5 /* ChannelTableViewController.m */; };
+		656958EE1A2136E300BF47D5 /* SetupUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958ED1A2136E300BF47D5 /* SetupUserViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +47,12 @@
 		656958D61A21122400BF47D5 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 		656958DE1A21137100BF47D5 /* PublicChannelsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicChannelsTableViewController.h; sourceTree = "<group>"; };
 		656958DF1A21137100BF47D5 /* PublicChannelsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicChannelsTableViewController.m; sourceTree = "<group>"; };
-		656958E11A21165600BF47D5 /* MultipeerManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerManger.h; sourceTree = "<group>"; };
-		656958E21A21165600BF47D5 /* MultipeerManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerManger.m; sourceTree = "<group>"; };
+		656958E11A21165600BF47D5 /* MCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCManager.h; sourceTree = "<group>"; };
+		656958E21A21165600BF47D5 /* MCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCManager.m; sourceTree = "<group>"; };
+		656958E61A21360600BF47D5 /* ChannelTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelTableViewController.h; sourceTree = "<group>"; };
+		656958E71A21360600BF47D5 /* ChannelTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelTableViewController.m; sourceTree = "<group>"; };
+		656958EC1A2136E300BF47D5 /* SetupUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupUserViewController.h; sourceTree = "<group>"; };
+		656958ED1A2136E300BF47D5 /* SetupUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupUserViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +138,12 @@
 		656958D81A21123000BF47D5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				656958EC1A2136E300BF47D5 /* SetupUserViewController.h */,
+				656958ED1A2136E300BF47D5 /* SetupUserViewController.m */,
 				656958DE1A21137100BF47D5 /* PublicChannelsTableViewController.h */,
 				656958DF1A21137100BF47D5 /* PublicChannelsTableViewController.m */,
+				656958E61A21360600BF47D5 /* ChannelTableViewController.h */,
+				656958E71A21360600BF47D5 /* ChannelTableViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -174,8 +184,8 @@
 		656958E51A21167700BF47D5 /* MultipeerManager */ = {
 			isa = PBXGroup;
 			children = (
-				656958E11A21165600BF47D5 /* MultipeerManger.h */,
-				656958E21A21165600BF47D5 /* MultipeerManger.m */,
+				656958E11A21165600BF47D5 /* MCManager.h */,
+				656958E21A21165600BF47D5 /* MCManager.m */,
 			);
 			name = MultipeerManager;
 			sourceTree = "<group>";
@@ -281,7 +291,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				656958B41A2111BC00BF47D5 /* AppDelegate.m in Sources */,
-				656958E31A21165600BF47D5 /* MultipeerManger.m in Sources */,
+				656958E81A21360600BF47D5 /* ChannelTableViewController.m in Sources */,
+				656958E31A21165600BF47D5 /* MCManager.m in Sources */,
+				656958EE1A2136E300BF47D5 /* SetupUserViewController.m in Sources */,
 				656958E01A21137100BF47D5 /* PublicChannelsTableViewController.m in Sources */,
 				656958B11A2111BC00BF47D5 /* main.m in Sources */,
 			);
