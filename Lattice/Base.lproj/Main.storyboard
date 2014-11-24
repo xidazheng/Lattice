@@ -7,7 +7,7 @@
         <!--Setup User View Controller-->
         <scene sceneID="4HZ-sA-9ah">
             <objects>
-                <viewController id="Ee4-j9-vq2" customClass="SetupUserViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SetupUserViewController" id="Ee4-j9-vq2" customClass="SetupUserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nXz-aX-qaW"/>
                         <viewControllerLayoutGuide type="bottom" id="Cda-en-moB"/>
@@ -15,13 +15,45 @@
                     <view key="view" contentMode="scaleToFill" id="mQ8-YY-OtD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lattice" translatesAutoresizingMaskIntoConstraints="NO" id="oBP-Sm-08S">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lattice" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTm-cz-Q3N">
+                                <rect key="frame" x="16" y="184" width="288" height="42"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter your name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYa-ap-u92">
+                                <rect key="frame" x="16" y="230" width="288" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Full name" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="J7Q-eD-SVA">
+                                <rect key="frame" x="50" y="274" width="222" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="go"/>
+                                <connections>
+                                    <segue destination="y2h-9O-ENh" kind="show" id="ZJd-vK-InQ"/>
+                                </connections>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Dbr-bE-Oov">
+                                <rect key="frame" x="85" y="27" width="150" height="150"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="latticeLabel" destination="LTm-cz-Q3N" id="IR5-1M-oFf"/>
+                        <outlet property="nameInputField" destination="J7Q-eD-SVA" id="X9j-pm-O2Y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YA1-mn-eIf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="505" y="-265"/>
+            <point key="canvasLocation" x="521" y="-261"/>
         </scene>
         <!--Public Channels Table View Controller-->
         <scene sceneID="HNY-Pu-o8Q">
@@ -37,6 +69,9 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yOl-EX-xQw" id="wcc-AK-rH5">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="L10-va-1Ls" kind="show" id="16R-tg-rGX"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -78,4 +113,8 @@
             <point key="canvasLocation" x="927" y="421"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Logo" width="149" height="144"/>
+        <image name="lattice" width="1280" height="842"/>
+    </resources>
 </document>

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SetupUserViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,19 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
+    // Grab reference to storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"existingUser"]) {
+        self.window.rootViewController = [storyboard instantiateInitialViewController];
+    } else {
+        SetupUserViewController *setupViewController = [storyboard instantiateViewControllerWithIdentifier:@"SetupUserViewController"];
+        [self.window makeKeyAndVisible];
+        self.window.rootViewController = setupViewController;
+    }
+    
+    
     return YES;
 }
 

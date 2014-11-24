@@ -19,6 +19,8 @@
 		656958E31A21165600BF47D5 /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958E21A21165600BF47D5 /* MCManager.m */; };
 		656958E81A21360600BF47D5 /* ChannelTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958E71A21360600BF47D5 /* ChannelTableViewController.m */; };
 		656958EE1A2136E300BF47D5 /* SetupUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958ED1A2136E300BF47D5 /* SetupUserViewController.m */; };
+		656958F11A236D4400BF47D5 /* ChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 656958F01A236D4400BF47D5 /* ChannelTableViewCell.m */; };
+		656958F31A236D7E00BF47D5 /* ChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656958F21A236D7E00BF47D5 /* ChannelTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,9 @@
 		656958E71A21360600BF47D5 /* ChannelTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelTableViewController.m; sourceTree = "<group>"; };
 		656958EC1A2136E300BF47D5 /* SetupUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupUserViewController.h; sourceTree = "<group>"; };
 		656958ED1A2136E300BF47D5 /* SetupUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupUserViewController.m; sourceTree = "<group>"; };
+		656958EF1A236D4400BF47D5 /* ChannelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelTableViewCell.h; sourceTree = "<group>"; };
+		656958F01A236D4400BF47D5 /* ChannelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelTableViewCell.m; sourceTree = "<group>"; };
+		656958F21A236D7E00BF47D5 /* ChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChannelTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +163,9 @@
 		656958DA1A21123C00BF47D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				656958EF1A236D4400BF47D5 /* ChannelTableViewCell.h */,
+				656958F01A236D4400BF47D5 /* ChannelTableViewCell.m */,
+				656958F21A236D7E00BF47D5 /* ChannelTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -271,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				656958BA1A2111BC00BF47D5 /* Main.storyboard in Resources */,
+				656958F31A236D7E00BF47D5 /* ChannelTableViewCell.xib in Resources */,
 				656958BF1A2111BC00BF47D5 /* LaunchScreen.xib in Resources */,
 				656958BC1A2111BC00BF47D5 /* Images.xcassets in Resources */,
 			);
@@ -296,6 +305,7 @@
 				656958EE1A2136E300BF47D5 /* SetupUserViewController.m in Sources */,
 				656958E01A21137100BF47D5 /* PublicChannelsTableViewController.m in Sources */,
 				656958B11A2111BC00BF47D5 /* main.m in Sources */,
+				656958F11A236D4400BF47D5 /* ChannelTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +496,7 @@
 				656958D01A2111BC00BF47D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		656958D11A2111BC00BF47D5 /* Build configuration list for PBXNativeTarget "LatticeTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +505,7 @@
 				656958D31A2111BC00BF47D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
