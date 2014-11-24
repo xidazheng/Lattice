@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "User.h"
+#import "MCManager.h"
+
 @interface AppDelegate ()
 
 @end
@@ -17,10 +19,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    User *user = [[User alloc]initWithUsername:@"Xida"];
+    
+    
+    NSString *username = (arc4random() %2 == 0) ? @"Xida" : @"Elliot";
+    User *user = [[User alloc]initWithUsername:username];
     NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
     [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"user"];
     
+    MCManager *manager = [[MCManager alloc] init];
+    [manager setupPeerAndSessionWithDisplayName:username];
+    [manager setupMCBrowser];
+    [manager advertiseSelf:YES];
     
     return YES;
 }

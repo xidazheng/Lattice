@@ -27,6 +27,11 @@
     self.tableView.dataSource = self;
     self.channelName = @"water";
     self.recentMessages = [[NSMutableArray alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidChangeStateWithNotification:)
+                                                 name:@"MCDidChangeStateNotification"
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,6 +77,7 @@
     User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     Message *newMessage = [[Message alloc] initWithSender:user content:content channelName:self.channelName];
+    
     [self.recentMessages addObject:newMessage];
     [self.tableView reloadData];
     
