@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "User.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +17,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    User *user = [[User alloc]initWithUsername:@"Xida"];
+    NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
+    [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"user"];
+    
+    
     return YES;
 }
 
