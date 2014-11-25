@@ -15,7 +15,7 @@
 @implementation MCManager
 
 // Constants
-static NSString* const LatticeServiceType = @"Lattice-PublicChannels";
+NSString* const LatticeServiceType = @"lattice";
 
 -(instancetype)init{
     self = [super init];
@@ -36,25 +36,27 @@ static NSString* const LatticeServiceType = @"Lattice-PublicChannels";
 - (void)setupPeerAndSessionWithDisplayName:(NSString *)displayName {
     _peerID = [[MCPeerID alloc] initWithDisplayName:displayName];
     
-    _session = [[MCSession alloc] initWithPeer:_peerID];
+    _session = [[MCSession alloc] initWithPeer:self.peerID securityIdentity:nil encryptionPreference:MCEncryptionNone];
     _session.delegate = self;
 }
 
 - (void)setupMCBrowser{
-    _browser = [[MCBrowserViewController alloc] initWithServiceType:LatticeServiceType session:_session];
+    _browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.peerID serviceType:LatticeServiceType];
+    self.browser.delegate = self;
+    [self.browser startBrowsingForPeers];
 }
 
 // Note: May not need BOOL
 - (void)advertiseSelf:(BOOL)shouldAdvertise {
     if (shouldAdvertise) {
-        _advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:LatticeServiceType
-                                                           discoveryInfo:nil
-                                                                 session:_session];
-        [_advertiser start];
+        _advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID discoveryInfo:nil serviceType:LatticeServiceType];
+        self.advertiser.delegate = self;
+        [self.advertiser startAdvertisingPeer];
+        
     }
     else {
-        [_advertiser stop];
-        _advertiser = nil;
+        [self.advertiser stopAdvertisingPeer];
+        self.advertiser = nil;
     }
 }
 
@@ -93,5 +95,46 @@ static NSString* const LatticeServiceType = @"Lattice-PublicChannels";
     // Not implemented
 }
 
+#pragma mark - MCNearbyServiceAdvertiserDelegate
+
+- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
+{
+    NSLog(@"Advertiser %@ did not start advertising with error: %@", self.peerID.displayName, error.localizedDescription);
+}
+
+- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler
+{
+    NSLog(@"Advertiser %@ received an invitation from %@", self.peerID.displayName, peerID.displayName);
+    invitationHandler(YES, self.session);
+    NSLog(@"Advertiser %@ accepted invitation from %@", self.peerID.displayName, peerID.displayName);
+}
+
+#pragma mark - MCNearbyServiceBrowserDelegate
+
+- (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
+{
+    NSLog(@"Browser %@ did not start browsing with error: %@", self.peerID.displayName, error.localizedDescription);
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
+{
+    NSLog(@"Browser %@ found %@", self.peerID.displayName, peerID.displayName);
+    NSLog(@"Browser %@ invites %@ to connect", self.peerID.displayName, peerID.displayName);
+    BOOL shouldInvite = self.peerID.hash < peerID.hash;
+    if (shouldInvite) {
+        // I will invite the peer, the remote peer will NOT invite me.
+        NSLog(@"Browser %@ invites %@ to connect", self.peerID.displayName, peerID.displayName);
+        [self.browser invitePeer:peerID toSession:self.session withContext:nil timeout:10];
+    } else {
+        // I will NOT invite the peer, the remote peer will invite me.
+        NSLog(@"Browser %@ does not invite %@ to connect", self.peerID.displayName, peerID.displayName);
+    }
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
+{
+    NSLog(@"Browser %@ lost %@", self.peerID.displayName, peerID.displayName);
+//    [self logPeers];
+}
 
 @end

@@ -79,7 +79,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        
+    
+    
     //Create a Channel View Controller and pass in information to it.
     ChannelViewController *channelVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChannelViewController"];
     [self.navigationController pushViewController:channelVC animated:YES];

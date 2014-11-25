@@ -9,6 +9,7 @@
 #import "ChannelViewController.h"
 #import "Message.h"
 #import "User.h"
+#import "MCManager.h"
 
 @interface ChannelViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *messageText;
 - (IBAction)sendTapped:(id)sender;
 
+@property (strong, nonatomic) MCManager *multipeerManager;
 
 @end
 
@@ -27,6 +29,15 @@
     self.tableView.dataSource = self;
     self.channelName = @"water";
     self.recentMessages = [[NSMutableArray alloc] init];
+    
+    self.multipeerManager = [[MCManager alloc]init];
+
+    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"name"]);
+    
+    [self.multipeerManager setupPeerAndSessionWithDisplayName: (NSString *)[[NSUserDefaults standardUserDefaults] valueForKey:@"name"]];
+    [self.multipeerManager advertiseSelf:YES];
+    [self.multipeerManager setupMCBrowser];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:)

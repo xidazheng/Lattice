@@ -35,6 +35,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"existingUser"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.nameInputField.text forKey:@"name"];
     [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:@"communication"];
     [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:@"transportation"];
     [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:@"healthcare"];
