@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "User.h"
 #import "MCManager.h"
+#import "SetupUserViewController.h"
 
 @interface AppDelegate ()
 
@@ -21,15 +22,26 @@
     // Override point for customization after application launch.
     
     
-    NSString *username = (arc4random() %2 == 0) ? @"Xida" : @"Elliot";
-    User *user = [[User alloc]initWithUsername:username];
-    NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
-    [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"user"];
+//    NSString *username = (arc4random() %2 == 0) ? @"Xida" : @"Elliot";
+//    User *user = [[User alloc]initWithUsername:username];
+//    NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
+//    [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"user"];
+//    
+//    MCManager *manager = [[MCManager alloc] init];
+//    [manager setupPeerAndSessionWithDisplayName:username];
+//    [manager setupMCBrowser];
+//    [manager advertiseSelf:YES];
     
-    MCManager *manager = [[MCManager alloc] init];
-    [manager setupPeerAndSessionWithDisplayName:username];
-    [manager setupMCBrowser];
-    [manager advertiseSelf:YES];
+    // Grab reference to storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"existingUser"]) {
+        self.window.rootViewController = [storyboard instantiateInitialViewController];
+    } else {
+        SetupUserViewController *setupViewController = [storyboard instantiateViewControllerWithIdentifier:@"SetupUserViewController"];
+        [self.window makeKeyAndVisible];
+        self.window.rootViewController = setupViewController;
+    }
     
     return YES;
 }
