@@ -83,6 +83,7 @@
     
     //Create a Channel View Controller and pass in information to it.
     ChannelViewController *channelVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChannelViewController"];
+    channelVC.channelName = self.channelTitles[indexPath.row];
     [self.navigationController pushViewController:channelVC animated:YES];
     
 }

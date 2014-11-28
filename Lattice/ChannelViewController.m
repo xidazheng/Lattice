@@ -27,7 +27,8 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.channelName = @"water";
+    self.title = self.channelName;
+    
     self.recentMessages = [[NSMutableArray alloc] init];
     
     self.multipeerManager = [[MCManager alloc]init];
@@ -121,13 +122,16 @@
     NSData *messageData = notification.userInfo[@"data"];
     NSLog(@"unarchive object");
     Message *message = [NSKeyedUnarchiver unarchiveObjectWithData:messageData];
-    NSLog(@"add object to recentMessages");
-    [self.recentMessages insertObject:message atIndex:0];
+    if ([message.channelName isEqualToString:self.channelName])
+    {
+        NSLog(@"add object to recentMessages");
+        [self.recentMessages insertObject:message atIndex:0];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.tableView reloadData];
+        }];
+    }
     
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self.tableView reloadData];
-    }];
 }
 
 
