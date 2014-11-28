@@ -21,11 +21,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    
-//    NSString *username = (arc4random() %2 == 0) ? @"Xida" : @"Elliot";
-//    User *user = [[User alloc]initWithUsername:username];
-//    NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
-//    [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"user"];
 //    
 //    MCManager *manager = [[MCManager alloc] init];
 //    [manager setupPeerAndSessionWithDisplayName:username];

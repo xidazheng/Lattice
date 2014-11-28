@@ -31,10 +31,10 @@
     self.recentMessages = [[NSMutableArray alloc] init];
     
     self.multipeerManager = [[MCManager alloc]init];
-
-    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"name"]);
     
-    [self.multipeerManager setupPeerAndSessionWithDisplayName: (NSString *)[[NSUserDefaults standardUserDefaults] valueForKey:@"name"]];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    [self.multipeerManager setupPeerAndSessionWithDisplayName:user.username];
     [self.multipeerManager advertiseSelf:YES];
     [self.multipeerManager setupMCBrowser];
     
@@ -42,6 +42,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:)
                                                  name:@"MCDidChangeStateNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
                                                object:nil];
 }
 
@@ -75,23 +80,56 @@
 }
 
 
-
 - (IBAction)cancelTapped:(id)sender {
 
     [self.messageText setText:@""];
     [self.messageText resignFirstResponder];
 }
 
+
 - (IBAction)sendTapped:(id)sender {
     NSString *content = self.messageText.text;
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
-    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSData *userData = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
     
     Message *newMessage = [[Message alloc] initWithSender:user content:content channelName:self.channelName];
+    NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:newMessage];
     
-    [self.recentMessages addObject:newMessage];
+    
+    //send the message
+    NSError *error = nil;
+    [self.multipeerManager.session sendData:messageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+    
+    
+    [self.recentMessages insertObject:newMessage atIndex:0];
     [self.tableView reloadData];
     
     [self cancelTapped:nil];
 }
+
+
+- (void)peerDidChangeStateWithNotification:(NSNotification *)notification
+{
+    NSLog(@"peerDidChangeStateWithNotification %@", notification);
+}
+
+- (void)peerDidReceiveDataWithNotification:(NSNotification *)notification
+{
+    NSLog(@"peerDidReceiveDataWithNotification %@", notification);
+    //parse the notification for the data and the displayName
+    NSLog(@"extract data from notification");
+    NSData *messageData = notification.userInfo[@"data"];
+    NSLog(@"unarchive object");
+    Message *message = [NSKeyedUnarchiver unarchiveObjectWithData:messageData];
+    NSLog(@"add object to recentMessages");
+    [self.recentMessages insertObject:message atIndex:0];
+    
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.tableView reloadData];
+    }];
+}
+
+
+
 @end

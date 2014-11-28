@@ -8,6 +8,7 @@
 
 #import "SetupUserViewController.h"
 #import "PublicChannelsTableViewController.h"
+#import "User.h"
 
 @interface SetupUserViewController () <UITextFieldDelegate>
 
@@ -34,8 +35,11 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
+    User *user = [[User alloc]initWithUsername:self.nameInputField.text];
+    NSData *encodedUser = [NSKeyedArchiver archivedDataWithRootObject:user];
+    [[NSUserDefaults standardUserDefaults] setObject:encodedUser forKey:@"user"];
+
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"existingUser"];
-    [[NSUserDefaults standardUserDefaults] setObject:self.nameInputField.text forKey:@"name"];
     [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:@"communication"];
     [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:@"transportation"];
     [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:@"healthcare"];
