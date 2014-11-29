@@ -33,12 +33,6 @@
     
     self.multipeerManager = [[MCManager alloc]init];
     
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
-    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    [self.multipeerManager setupPeerAndSessionWithDisplayName:user.username];
-    [self.multipeerManager advertiseSelf:YES];
-    [self.multipeerManager setupMCBrowser];
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:)
@@ -49,6 +43,24 @@
                                              selector:@selector(peerDidReceiveDataWithNotification:)
                                                  name:@"MCDidReceiveDataNotification"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveInvitationNotification)
+                                                 name:@"MCDidReceiveInvitationNotification"
+                                               object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    NSLog(@"viewDidAppear");
+    
+    [self.recentMessages removeAllObjects];
+    [self.tableView reloadData];
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    [self.multipeerManager setupPeerAndSessionWithDisplayName:user.username];
+    [self.multipeerManager advertiseSelf:YES];
+    [self.multipeerManager setupMCBrowser];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,29 +101,42 @@
 
 
 - (IBAction)sendTapped:(id)sender {
+    
     NSString *content = self.messageText.text;
-    NSData *userData = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
-    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
     
-    Message *newMessage = [[Message alloc] initWithSender:user content:content channelName:self.channelName];
-    NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:newMessage];
+    if (content.length > 0) {
+        NSData *userData = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+        User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
+        
+        Message *newMessage = [[Message alloc] initWithSender:user content:content channelName:self.channelName];
+        NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:@[newMessage]];
+        
+        //send the message
+        NSError *error = nil;
+        [self.multipeerManager.session sendData:messageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+        
+        [self.recentMessages insertObject:newMessage atIndex:0];
+        [self.tableView reloadData];
+        
+        [self cancelTapped:nil];
+    }
     
-    
-    //send the message
-    NSError *error = nil;
-    [self.multipeerManager.session sendData:messageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
-    
-    
-    [self.recentMessages insertObject:newMessage atIndex:0];
-    [self.tableView reloadData];
-    
-    [self cancelTapped:nil];
 }
 
 
 - (void)peerDidChangeStateWithNotification:(NSNotification *)notification
 {
-    NSLog(@"peerDidChangeStateWithNotification %@", notification);
+//    NSLog(@"peerDidChangeStateWithNotification %@", notification);
+    if ([notification.userInfo[@"state"] integerValue] == MCSessionStateConnected && self.recentMessages > 0) {
+        //send up to the most recent 30 messages if a new device connects and this device has messages
+        NSData *recentMessageData = [NSKeyedArchiver archivedDataWithRootObject:[self.recentMessages subarrayWithRange:NSMakeRange(0, MIN([self.recentMessages count], 30))] ];
+        NSError *error = nil;
+        [self.multipeerManager.session sendData:recentMessageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+        NSLog(@"did send data");
+    }
+    
+    
+    
 }
 
 - (void)peerDidReceiveDataWithNotification:(NSNotification *)notification
@@ -121,19 +146,36 @@
     NSLog(@"extract data from notification");
     NSData *messageData = notification.userInfo[@"data"];
     NSLog(@"unarchive object");
-    Message *message = [NSKeyedUnarchiver unarchiveObjectWithData:messageData];
-    if ([message.channelName isEqualToString:self.channelName])
-    {
-        NSLog(@"add object to recentMessages");
-        [self.recentMessages insertObject:message atIndex:0];
+    NSArray *messages = [NSKeyedUnarchiver unarchiveObjectWithData:messageData];
+    
+    if ([messages count] > 0 && [((Message *) messages[0]).channelName isEqualToString:self.channelName]) {
+        if ([messages count] == 1)
+        {
+            NSLog(@"add one message to recentMessages");
+            [self.recentMessages insertObject:messages[0] atIndex:0];
+        }
+        else{
+            NSLog(@"add recent messages to an empty array");
+            self.recentMessages = [NSMutableArray arrayWithArray:messages];
+        }
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self.tableView reloadData];
         }];
     }
     
+    
+    
 }
 
+- (void)didReceiveInvitationNotification
+{
+    NSLog(@"didReceiveInvitation");
+    [self.recentMessages removeAllObjects];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.tableView reloadData];
+    }];
+}
 
 
 @end

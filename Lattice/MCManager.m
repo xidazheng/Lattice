@@ -107,6 +107,10 @@ NSString* const LatticeServiceType = @"lattice";
     NSLog(@"Advertiser %@ received an invitation from %@", self.peerID.displayName, peerID.displayName);
     invitationHandler(YES, self.session);
     NSLog(@"Advertiser %@ accepted invitation from %@", self.peerID.displayName, peerID.displayName);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidReceiveInvitationNotification"
+                                                        object:nil
+                                                      userInfo:nil];
 }
 
 #pragma mark - MCNearbyServiceBrowserDelegate
@@ -120,7 +124,12 @@ NSString* const LatticeServiceType = @"lattice";
 {
     NSLog(@"Browser %@ found %@", self.peerID.displayName, peerID.displayName);
     NSLog(@"Browser %@ invites %@ to connect", self.peerID.displayName, peerID.displayName);
+    NSLog(@"Info: %@", info);
+    
     BOOL shouldInvite = self.peerID.hash < peerID.hash;
+    NSLog(@"%lu",(unsigned long)self.peerID.hash);
+    NSLog(@"%lu",peerID.hash);
+    
     if (shouldInvite) {
         // I will invite the peer, the remote peer will NOT invite me.
         NSLog(@"Browser %@ invites %@ to connect", self.peerID.displayName, peerID.displayName);
