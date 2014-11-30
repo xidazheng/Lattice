@@ -25,6 +25,7 @@ NSString* const LatticeServiceType = @"lattice";
         _session = nil;
         _browser = nil;
         _advertiser = nil;
+        _numberOfMessagesInCurrentChannel = [@0 stringValue];
     }
     
     return self;
@@ -49,7 +50,8 @@ NSString* const LatticeServiceType = @"lattice";
 // Note: May not need BOOL
 - (void)advertiseSelf:(BOOL)shouldAdvertise {
     if (shouldAdvertise) {
-        _advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID discoveryInfo:nil serviceType:LatticeServiceType];
+        NSDictionary *elements = @{ @"numberOfMessagesInCurrentChannel": self.numberOfMessagesInCurrentChannel};
+        _advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.peerID discoveryInfo:elements serviceType:LatticeServiceType];
         self.advertiser.delegate = self;
         [self.advertiser startAdvertisingPeer];
         
@@ -126,9 +128,15 @@ NSString* const LatticeServiceType = @"lattice";
     NSLog(@"Browser %@ invites %@ to connect", self.peerID.displayName, peerID.displayName);
     NSLog(@"Info: %@", info);
     
-    BOOL shouldInvite = self.peerID.hash < peerID.hash;
-    NSLog(@"%lu",(unsigned long)self.peerID.hash);
-    NSLog(@"%lu",peerID.hash);
+    //the hash is an unreliable way to decide which one will invite the other, it only makes sure that one invites the other. A slightly better way to do this is to figure out which one has more items in it. I can do that using the info field, which must be set up in the advertiser.
+    BOOL shouldInvite = [self.numberOfMessagesInCurrentChannel integerValue] < [info[@"numberOfMessagesInCurrentChannel"] integerValue];
+    NSLog(@"%d", shouldInvite);
+    
+    if ([self.numberOfMessagesInCurrentChannel integerValue] == 0 && [info[@"numberOfMessagesInCurrentChannel"] integerValue] == 0) {
+        shouldInvite = self.peerID.hash < peerID.hash;
+    }
+    
+    
     
     if (shouldInvite) {
         // I will invite the peer, the remote peer will NOT invite me.

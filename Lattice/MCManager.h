@@ -16,6 +16,8 @@
 @property (nonatomic, strong) MCNearbyServiceBrowser *browser;
 @property (nonatomic, strong) MCNearbyServiceAdvertiser *advertiser;
 
+@property (nonatomic, strong) NSString *numberOfMessagesInCurrentChannel;
+
 -(void)setupPeerAndSessionWithDisplayName:(NSString *)displayName;
 -(void)setupMCBrowser;
 -(void)advertiseSelf:(BOOL)shouldAdvertise;

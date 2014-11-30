@@ -30,9 +30,9 @@
     self.title = self.channelName;
     
     self.recentMessages = [[NSMutableArray alloc] init];
+    self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.recentMessages count]] stringValue];
     
     self.multipeerManager = [[MCManager alloc]init];
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peerDidChangeStateWithNotification:)
@@ -54,6 +54,7 @@
     NSLog(@"viewDidAppear");
     
     [self.recentMessages removeAllObjects];
+    self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.recentMessages count]] stringValue];
     [self.tableView reloadData];
     
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
@@ -114,8 +115,13 @@
         //send the message
         NSError *error = nil;
         [self.multipeerManager.session sendData:messageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+        NSLog(@"Error %@", error.localizedDescription);
         
         [self.recentMessages insertObject:newMessage atIndex:0];
+        self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.recentMessages count]] stringValue];
+        
+        NSLog(@"%@ numberOfMessagesInCurrentChannel %@", user.username, self.multipeerManager.numberOfMessagesInCurrentChannel);
+        
         [self.tableView reloadData];
         
         [self cancelTapped:nil];
@@ -153,10 +159,15 @@
         {
             NSLog(@"add one message to recentMessages");
             [self.recentMessages insertObject:messages[0] atIndex:0];
+            self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.recentMessages count]] stringValue];
+            NSLog(@"numberOfMessagesInCurrentChannel %@", self.multipeerManager.numberOfMessagesInCurrentChannel);
         }
         else{
             NSLog(@"add recent messages to an empty array");
             self.recentMessages = [NSMutableArray arrayWithArray:messages];
+            self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.recentMessages count]] stringValue];
+            NSLog(@"numberOfMessagesInCurrentChannel %@", self.multipeerManager.numberOfMessagesInCurrentChannel);
+
         }
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -172,6 +183,13 @@
 {
     NSLog(@"didReceiveInvitation");
     [self.recentMessages removeAllObjects];
+    self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.recentMessages count]] stringValue];
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+    NSLog(@"%@ numberOfMessagesInCurrentChannel %@", user.username, self.multipeerManager.numberOfMessagesInCurrentChannel);
+
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.tableView reloadData];
     }];
