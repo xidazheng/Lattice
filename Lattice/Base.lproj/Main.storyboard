@@ -166,7 +166,7 @@
                     <navigationItem key="navigationItem" title="Channel Name" id="y0D-8J-pNU"/>
                     <connections>
                         <outlet property="messageText" destination="mP5-Fg-lEC" id="W6A-vG-QXc"/>
-                        <outlet property="tableView" destination="bhm-k9-OFk" id="y46-Q6-fhk"/>
+                        <outlet property="tableView" destination="bhm-k9-OFk" id="zk7-9u-nDI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJA-TR-Rgy" userLabel="First Responder" sceneMemberID="firstResponder"/>

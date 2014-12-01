@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FDC853F9EFA82539BBD1F4D1"
+               BlueprintIdentifier = "220F31443875DD411F8DE3F4"
                BuildableName = "libPods-LatticeTests-Specta.a"
                BlueprintName = "Pods-LatticeTests-Specta"
                ReferencedContainer = "container:Pods.xcodeproj">

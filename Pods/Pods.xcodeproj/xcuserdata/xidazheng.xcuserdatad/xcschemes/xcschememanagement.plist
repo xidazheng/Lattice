@@ -4,6 +4,21 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-Lattice-JSQMessagesViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Lattice-JSQSystemSoundPlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Lattice.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-LatticeTests-Expecta.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>652F614C240C20CE5D14E2CD</key>
+		<key>0F8F71370AB6FBFE94307510</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B57E440F1ED7833F3E76881C</key>
+		<key>220F31443875DD411F8DE3F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FDC853F9EFA82539BBD1F4D1</key>
+		<key>59DD8A0AF1A174C6853B164C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF1C9A9EAA3B109A11CAE6A9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D974389AD208E8953F6D866E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4977E3224FA25B7DC0AA3B6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

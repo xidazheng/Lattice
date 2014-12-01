@@ -4,7 +4,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target "Lattice" do
-	
+	pod 'JSQMessagesViewController'  
 end
 
 target "LatticeTests" do

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B57E440F1ED7833F3E76881C"
+               BlueprintIdentifier = "E4977E3224FA25B7DC0AA3B6"
                BuildableName = "libPods-LatticeTests.a"
                BlueprintName = "Pods-LatticeTests"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -11,8 +11,10 @@
 #import "User.h"
 #import "MCManager.h"
 
+
 @interface ChannelViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 - (IBAction)cancelTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *messageText;
 - (IBAction)sendTapped:(id)sender;
@@ -27,6 +29,8 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    
     self.title = self.channelName;
     
     self.recentMessages = [[NSMutableArray alloc] init];
@@ -81,7 +85,6 @@
     return [self.recentMessages count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
     
@@ -92,6 +95,7 @@
     
     return cell;
 }
+
 
 
 - (IBAction)cancelTapped:(id)sender {
