@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <HPLChatTableView.h>
 
 @interface ChannelViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) NSString *channelName;

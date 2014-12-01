@@ -9,6 +9,7 @@
 #import "PublicChannelsTableViewController.h"
 #import "ChannelTableViewCell.h"
 #import "ChannelViewController.h"
+#import "MessagesViewController.h"
 
 @interface PublicChannelsTableViewController ()
 
@@ -82,7 +83,7 @@
     
     
     //Create a Channel View Controller and pass in information to it.
-    ChannelViewController *channelVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChannelViewController"];
+    MessagesViewController *channelVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessagesViewController"];
     channelVC.channelName = self.channelTitles[indexPath.row];
     [self.navigationController pushViewController:channelVC animated:YES];
     

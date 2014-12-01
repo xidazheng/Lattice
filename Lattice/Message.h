@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
-@interface Message : NSObject
+@interface Message : NSObject <NSCoding>
 
 @property (strong, nonatomic) User *sender;
 @property (strong, nonatomic) NSString *content;
