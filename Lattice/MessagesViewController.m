@@ -85,8 +85,8 @@
      */
     self.collectionView.collectionViewLayout.springinessEnabled = [NSUserDefaults springinessSetting];
     
-    [self.demoData.messages removeAllObjects];
-    [self.collectionView reloadData];
+//    [self.demoData.messages removeAllObjects];
+//    [self.collectionView reloadData];
 
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
     User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -189,8 +189,8 @@
 - (void)didReceiveInvitationNotification
 {
     NSLog(@"didReceiveInvitation");
-    [self.demoData.messages removeAllObjects];
-    self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.demoData.messages count]] stringValue];
+//    [self.demoData.messages removeAllObjects];
+//    self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.demoData.messages count]] stringValue];
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.collectionView reloadData];
