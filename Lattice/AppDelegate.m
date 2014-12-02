@@ -35,7 +35,7 @@
     
     [NSUserDefaults saveIncomingAvatarSetting:YES];
     [NSUserDefaults saveOutgoingAvatarSetting:YES];
-//    [NSUserDefaults saveEmptyMessagesSetting:YES];
+    [NSUserDefaults saveEmptyMessagesSetting:YES];
     
     return YES;
 }

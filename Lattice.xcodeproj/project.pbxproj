@@ -26,6 +26,7 @@
 		EA9C2F4C1A2CED5100438648 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9C2F4B1A2CED5100438648 /* MessagesViewController.m */; };
 		EA9C2F4F1A2CED9100438648 /* NSUserDefaults+DemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9C2F4E1A2CED9100438648 /* NSUserDefaults+DemoSettings.m */; };
 		EA9C2F521A2CEE3300438648 /* DemoModelData.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9C2F511A2CEE3300438648 /* DemoModelData.m */; };
+		EA9C2F551A2D4C3B00438648 /* XZMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9C2F541A2D4C3B00438648 /* XZMessage.m */; };
 		EAEBE8F21A226FEB00745070 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEBE8F11A226FEB00745070 /* Message.m */; };
 		EAEBE8F51A22708500745070 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEBE8F41A22708500745070 /* User.m */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,8 @@
 		EA9C2F4E1A2CED9100438648 /* NSUserDefaults+DemoSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+DemoSettings.m"; sourceTree = "<group>"; };
 		EA9C2F501A2CEE3300438648 /* DemoModelData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoModelData.h; sourceTree = "<group>"; };
 		EA9C2F511A2CEE3300438648 /* DemoModelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoModelData.m; sourceTree = "<group>"; };
+		EA9C2F531A2D4C3B00438648 /* XZMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZMessage.h; sourceTree = "<group>"; };
+		EA9C2F541A2D4C3B00438648 /* XZMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZMessage.m; sourceTree = "<group>"; };
 		EAEBE8F01A226FEB00745070 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		EAEBE8F11A226FEB00745070 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		EAEBE8F31A22708500745070 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -200,6 +203,8 @@
 			children = (
 				EAEBE8F01A226FEB00745070 /* Message.h */,
 				EAEBE8F11A226FEB00745070 /* Message.m */,
+				EA9C2F531A2D4C3B00438648 /* XZMessage.h */,
+				EA9C2F541A2D4C3B00438648 /* XZMessage.m */,
 				EAEBE8F31A22708500745070 /* User.h */,
 				EAEBE8F41A22708500745070 /* User.m */,
 				EA9C2F501A2CEE3300438648 /* DemoModelData.h */,
@@ -428,6 +433,7 @@
 				656958E81A21360600BF47D5 /* ChannelViewController.m in Sources */,
 				656958E31A21165600BF47D5 /* MCManager.m in Sources */,
 				EA09C1391A24006100B39B21 /* ChannelTableViewCell.m in Sources */,
+				EA9C2F551A2D4C3B00438648 /* XZMessage.m in Sources */,
 				EAEBE8F21A226FEB00745070 /* Message.m in Sources */,
 				EA9C2F4C1A2CED5100438648 /* MessagesViewController.m in Sources */,
 				656958EE1A2136E300BF47D5 /* SetupUserViewController.m in Sources */,

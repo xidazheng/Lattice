@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSUUID *UUID;
 -(instancetype)initWithUsername:(NSString *)username;
+-(instancetype)initWithUsername:(NSString *)username UUID:(NSUUID *)UUID;
 
 
 @end

@@ -7,8 +7,12 @@
 //
 
 #import "MessagesViewController.h"
+#import "MCManager.h"
+#import "User.h"
+#import "XZMessage.h"
 
 @interface MessagesViewController ()
+@property (strong, nonatomic) MCManager *multipeerManager;
 
 @end
 
@@ -18,19 +22,38 @@
 {
     [super viewDidLoad];
     
-    self.title = @"JSQMessages";
+    self.title = self.channelName;
     
     /**
      *  You MUST set your senderId and display name
      */
-    self.senderId = kJSQDemoAvatarIdSquires;
-    self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
+    NSData *userData = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
+    
+    self.senderId = [user.UUID UUIDString];
+    self.senderDisplayName = user.username;
     
     
     /**
      *  Load up our fake data for the demo
      */
     self.demoData = [[DemoModelData alloc] init];
+    
+    self.multipeerManager = [[MCManager alloc]init];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidChangeStateWithNotification:)
+                                                 name:@"MCDidChangeStateNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(peerDidReceiveDataWithNotification:)
+                                                 name:@"MCDidReceiveDataNotification"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveInvitationNotification)
+                                                 name:@"MCDidReceiveInvitationNotification"
+                                               object:nil];
+    
     [self scrollToBottomAnimated:YES];
     
     /**
@@ -46,11 +69,6 @@
     
     self.showLoadEarlierMessagesHeader = NO;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
-                                                                              style:UIBarButtonItemStyleBordered
-                                                                             target:self
-                                                                             action:@selector(receiveMessagePressed:)];
-    
     //removes the attachment button
     self.inputToolbar.contentView.leftBarButtonItem = nil;
 }
@@ -65,6 +83,15 @@
      *  Note: this feature is mostly stable, but still experimental
      */
     self.collectionView.collectionViewLayout.springinessEnabled = [NSUserDefaults springinessSetting];
+    
+    [self.demoData.messages removeAllObjects];
+    [self.collectionView reloadData];
+
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    User *user = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    [self.multipeerManager setupPeerAndSessionWithDisplayName:user.username];
+    [self.multipeerManager advertiseSelf:YES];
+    [self.multipeerManager setupMCBrowser];
 }
 
 #pragma mark - JSQMessagesViewController method overrides
@@ -84,16 +111,89 @@
      */
     [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
-    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
-                                             senderDisplayName:senderDisplayName
-                                                          date:date
-                                                          text:text];
+    if (text.length > 0)
+    {
     
-    [self.demoData.messages addObject:message];
-    
-    
-    [self finishSendingMessage];
+        XZMessage *message = [[XZMessage alloc] initWithSenderId:senderId senderDisplayName:senderDisplayName date:date text:text channelName:self.channelName];
+        NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:@[message]];
+
+        //send the message
+        NSError *error = nil;
+        [self.multipeerManager.session sendData:messageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+        NSLog(@"Error %@", error.localizedDescription);
+        
+        [self.demoData.messages addObject:message];
+        
+        //contains collectionView reloadData
+        [self finishSendingMessage];
+        
+    }
 }
+
+#pragma mark - MCManager Notification handlers
+
+- (void)peerDidChangeStateWithNotification:(NSNotification *)notification
+{
+    //    NSLog(@"peerDidChangeStateWithNotification %@", notification);
+//    if ([notification.userInfo[@"state"] integerValue] == MCSessionStateConnected && self.demoData.messages > 0) {
+//        //send up to the most recent 30 messages if a new device connects and this device has messages
+//        NSData *recentMessageData = [NSKeyedArchiver archivedDataWithRootObject:[self.demoData.messages subarrayWithRange:NSMakeRange(0, MIN([self.demoData.messages count], 30))] ];
+//        NSError *error = nil;
+//        [self.multipeerManager.session sendData:recentMessageData toPeers:self.multipeerManager.session.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+//        NSLog(@"did send data");
+//    }
+    
+}
+
+- (void)peerDidReceiveDataWithNotification:(NSNotification *)notification
+{
+    NSLog(@"peerDidReceiveDataWithNotification %@", notification);
+    //parse the notification for the data and the displayName
+    NSLog(@"extract data from notification");
+    NSData *messageData = notification.userInfo[@"data"];
+    NSLog(@"unarchive object");
+    NSArray *messages = [NSKeyedUnarchiver unarchiveObjectWithData:messageData];
+    
+    if ([messages count] > 0 && [((XZMessage *) messages[0]).channelName isEqualToString:self.channelName]) {
+        if ([messages count] == 1)
+        {
+            NSLog(@"add one message to recentMessages");
+            [self.demoData.messages addObject:messages[0]];
+            
+            NSString *username = ((XZMessage *) messages[0]).senderDisplayName;
+            NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:((XZMessage *) messages[0]).senderId];
+            
+            User *sender = [[User alloc] initWithUsername:username UUID:uuid];
+            
+            [self.demoData addPeerWithUser:sender];
+            
+            
+        }
+        else{
+            NSLog(@"add recent messages to an empty array");
+            self.demoData.messages = [NSMutableArray arrayWithArray:messages];
+        }
+        
+        
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.collectionView reloadData];
+        }];
+    }
+    
+}
+
+- (void)didReceiveInvitationNotification
+{
+    NSLog(@"didReceiveInvitation");
+    [self.demoData.messages removeAllObjects];
+    self.multipeerManager.numberOfMessagesInCurrentChannel = [[NSNumber numberWithInteger:[self.demoData.messages count]] stringValue];
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.collectionView reloadData];
+    }];
+}
+
 
 
 #pragma mark - JSQMessages CollectionView DataSource
