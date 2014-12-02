@@ -55,16 +55,16 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="Dbr-bE-Oov" secondAttribute="centerX" id="6kf-6p-7ez"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oBP-Sm-08S" secondAttribute="trailing" constant="-16" id="8Nb-7c-g6F"/>
+                            <constraint firstItem="oBP-Sm-08S" firstAttribute="top" secondItem="nXz-aX-qaW" secondAttribute="bottom" constant="-20" id="8uH-FI-qhK"/>
                             <constraint firstAttribute="centerX" secondItem="J7Q-eD-SVA" secondAttribute="centerX" id="906-yz-IGE"/>
                             <constraint firstItem="oBP-Sm-08S" firstAttribute="leading" secondItem="mQ8-YY-OtD" secondAttribute="leadingMargin" constant="-16" id="AK0-sW-z6N"/>
                             <constraint firstAttribute="centerX" secondItem="aYa-ap-u92" secondAttribute="centerX" id="Hvm-hP-shS"/>
-                            <constraint firstItem="oBP-Sm-08S" firstAttribute="top" secondItem="nXz-aX-qaW" secondAttribute="bottom" constant="-20" id="KOc-IR-KrG"/>
-                            <constraint firstItem="Dbr-bE-Oov" firstAttribute="top" secondItem="nXz-aX-qaW" secondAttribute="bottom" constant="22" id="PvV-KW-yxB"/>
+                            <constraint firstItem="Cda-en-moB" firstAttribute="top" secondItem="oBP-Sm-08S" secondAttribute="bottom" id="SRH-BC-ORQ"/>
                             <constraint firstItem="J7Q-eD-SVA" firstAttribute="top" secondItem="aYa-ap-u92" secondAttribute="bottom" constant="19" id="XXR-C3-JLh"/>
                             <constraint firstItem="LTm-cz-Q3N" firstAttribute="top" secondItem="Dbr-bE-Oov" secondAttribute="bottom" constant="8" id="Xgy-ub-axT"/>
+                            <constraint firstItem="Dbr-bE-Oov" firstAttribute="top" secondItem="nXz-aX-qaW" secondAttribute="bottom" constant="22" id="YqO-nK-e67"/>
                             <constraint firstAttribute="centerX" secondItem="LTm-cz-Q3N" secondAttribute="centerX" id="Z20-e6-zVG"/>
                             <constraint firstItem="aYa-ap-u92" firstAttribute="top" secondItem="LTm-cz-Q3N" secondAttribute="bottom" constant="27" id="eYJ-gM-Whg"/>
-                            <constraint firstItem="Cda-en-moB" firstAttribute="top" secondItem="oBP-Sm-08S" secondAttribute="bottom" id="oh9-sV-KO5"/>
                             <constraint firstItem="LTm-cz-Q3N" firstAttribute="top" secondItem="Dbr-bE-Oov" secondAttribute="bottom" constant="8" id="x1q-8l-gdy"/>
                         </constraints>
                     </view>

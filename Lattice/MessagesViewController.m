@@ -54,6 +54,8 @@
                                              selector:@selector(didReceiveInvitationNotification)
                                                  name:@"MCDidReceiveInvitationNotification"
                                                object:nil];
+
+    
     
     [self scrollToBottomAnimated:YES];
     

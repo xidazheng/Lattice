@@ -62,6 +62,22 @@ NSString* const LatticeServiceType = @"lattice";
     }
 }
 
+- (void) disconnect
+{
+    
+    [self.advertiser stopAdvertisingPeer];
+    self.advertiser.delegate = nil;
+    self.advertiser = nil;
+    
+    [self.browser stopBrowsingForPeers];
+    self.browser.delegate = nil;
+    self.browser = nil;
+    
+    [self.session disconnect];
+    self.session.delegate = nil;
+    self.session = nil;
+}
+
 #pragma mark Session Delegate Methods
 
 // If state change post notification MCDidChangeStateNotification to all listeners,
@@ -75,7 +91,7 @@ NSString* const LatticeServiceType = @"lattice";
                                                       userInfo:dict];
 }
 
-// Create dicitonary from data recieved and peerID of sender. Send notification to chat viewController to display new string
+// Create dictonary from data recieved and peerID of sender. Send notification to chat viewController to display new string
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
     NSDictionary *dict = @{@"data": data,
                            @"peerID": peerID};
@@ -125,14 +141,13 @@ NSString* const LatticeServiceType = @"lattice";
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
     NSLog(@"Browser %@ found %@", self.peerID.displayName, peerID.displayName);
-    NSLog(@"Browser %@ invites %@ to connect", self.peerID.displayName, peerID.displayName);
     NSLog(@"Info: %@", info);
     
     //the hash is an unreliable way to decide which one will invite the other, it only makes sure that one invites the other. A slightly better way to do this is to figure out which one has more items in it. I can do that using the info field, which must be set up in the advertiser.
     BOOL shouldInvite = [self.numberOfMessagesInCurrentChannel integerValue] < [info[@"numberOfMessagesInCurrentChannel"] integerValue];
     NSLog(@"%d", shouldInvite);
     
-    if ([self.numberOfMessagesInCurrentChannel integerValue] == 0 && [info[@"numberOfMessagesInCurrentChannel"] integerValue] == 0) {
+    if ([self.numberOfMessagesInCurrentChannel integerValue] == 0 && [info[@"numberOfMessagesInCurrentChannel"] integerValue] == 0){
         shouldInvite = self.peerID.hash < peerID.hash;
     }
     
