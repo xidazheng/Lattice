@@ -23,6 +23,7 @@
     [super viewDidLoad];
     
     self.title = self.channelName;
+    [self.navigationController.navigationBar setHidden:NO];
     
     /**
      *  You MUST set your senderId and display name
@@ -178,6 +179,8 @@
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self.collectionView reloadData];
+            [self scrollToBottomAnimated:YES];
+
         }];
     }
     
