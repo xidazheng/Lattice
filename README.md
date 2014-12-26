@@ -5,7 +5,7 @@ The Lattice project is a demonstration of Apple's Multipeer Connectivity Framewo
 Special Thanks To:
 
 Peter Fennema for showing how to connect via multipeer automatically
-peterfennema.nl/2014/07/16/ios-multipeer-1/
+http://peterfennema.nl/2014/07/16/ios-multipeer-1/
 
 Jesse Squires for the Messages User Interface: JSQMessagesViewController
 https://github.com/jessesquires/JSQMessagesViewController
